@@ -13,7 +13,7 @@ This repository covers the following essential pointer concepts:
 - 🧱 Dynamic Memory Allocation (`malloc`, `calloc`, `free`)
 - ➕ Pointer Arithmetic
 
-Each topic includes code examples, explanations, and diagrams to help you visualize memory and pointer behavior.
+Each topic includes code examples and explanations to help you visualize memory and pointer behavior.
 
 ---
 
