@@ -1,3 +1,46 @@
+# 🧠 Data Structures Lab in C/C++
+
+Welcome to the **Data Structures Lab** — a hands-on repository designed to help you master the building blocks of efficient programming. This lab includes clean, well-commented implementations of essential data structures using **C/C++**, with a strong focus on understanding memory through **pointers**.
+
+## 📘 Topics Covered
+
+This lab covers the following core data structures and concepts:
+
+- 🔗 Pointers
+- 🧵 Linked Lists
+- 🌳 Trees (Binary Trees, BSTs)
+- 🚦 Queues (Linear and Circular)
+
+Each module includes:
+
+- ✅ Source code with comments
+- 🧪 Sample input/output
+- 📊 Diagrams and memory illustrations
+- 🧠 Conceptual explanations
+
+---
+
+## 📂 Repository Structure
+
+📁 data-structures-lab/
+├── pointers/
+│   ├── pointer_basics.c
+│   ├── pointer_arithmetic.c
+│   └── dynamic_memory.c
+├── linkedlist/
+│   ├── singly_linked_list.c
+│   ├── doubly_linked_list.c
+│   └── circular_linked_list.c
+├── trees/
+│   ├── binary_tree.c
+│   ├── bst_insert_search.c
+│   └── tree_traversals.c
+├── queues/
+│   ├── linear_queue.c
+│   ├── circular_queue.c
+│   └── queue_using_linkedlist.c
+└── README.md
+
 # 🔗 Deep Dive into Pointers in C/C++
 
 Welcome to the **Pointers Playground** — a comprehensive guide to mastering pointers in C/C++. This repository is built for learners, developers, and interviewees who want to understand how memory works under the hood and how pointers unlock powerful programming techniques.
@@ -67,3 +110,95 @@ printf("%d", *(p + 1)); // Outputs 20
 ├── dynamic_memory/
 ├── pointer_arithmetic/
 └── README.md
+# 🧵 Linked Lists in C/C++
+
+Welcome to the **Linked List Lab** — a complete guide to understanding and implementing linked lists in C/C++. This repository is designed for students, developers, and interviewees who want to master dynamic data structures and pointer manipulation.
+
+## 📘 What is a Linked List?
+
+A **Linked List** is a linear data structure where elements (nodes) are stored in memory and linked using pointers. Unlike arrays, linked lists allow dynamic memory allocation and efficient insertion/deletion.
+
+---
+
+📂 Repository Structure
+📁 linked-list-lab/
+├── singly_linked_list/
+│   ├── insert.c
+│   ├── delete.c
+│   ├── traverse.c
+│   └── reverse.c
+├── doubly_linked_list/
+│   ├── insert.c
+│   ├── delete.c
+│   ├── traverse.c
+│   └── reverse.c
+├── circular_linked_list/
+│   ├── insert.c
+│   ├── delete.c
+│   └── traverse.c
+├── README.md
+🧩 Topics of linked list
+1. 🔗 Singly Linked List
+Each node contains data and a pointer to the next node.
+
+Operations:
+
+Insertion (at beginning, end, specific position)
+
+Deletion (by value or position)
+
+Traversal
+
+Reversal
+
+struct Node {
+    int data;
+struct Node* next;
+};
+🔁 Doubly Linked List
+Each node contains data, a pointer to the next node, and a pointer to the previous node.
+
+Allows bidirectional traversal.
+
+Operations:
+
+Insertion and deletion at both ends
+
+Reversal
+
+Efficient backward traversal
+struct Node {
+    int data;
+    struct Node* prev;
+    struct Node* next;
+};
+
+3. 🔄 Circular Linked List
+The last node points back to the first node, forming a circle.
+
+Can be singly or doubly circular.
+
+Operations:
+
+Insertion and deletion
+
+Circular traversal
+struct Node {
+    int data;
+    struct Node* next; // Points to head if it's the last node
+};
+
+4. 🧠 Memory Management with Pointers
+Linked lists rely heavily on pointers and dynamic memory allocation.
+
+Use malloc() and free() to manage memory.
+
+Avoid memory leaks by freeing unused nodes.
+
+5. 🧪 Sample Code Snippet
+// Insert at beginning in singly linked list
+void insertAtBeginning(int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->next = head;
+    head = newNode;
