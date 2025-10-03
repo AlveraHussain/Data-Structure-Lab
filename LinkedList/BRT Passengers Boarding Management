@@ -1,1 +1,133 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+
+    Node(int d) {
+        data = d;
+        next = nullptr;
+    }
+};
+
+class linkedlist {
+private:
+    Node* head;
+
+public:
+    linkedlist() {
+        head = nullptr;
+    }
+
+    ~linkedlist() {
+        Node* curr = head;
+        while (curr) {
+            Node* next = curr->next;
+            delete curr;
+            curr = next;
+        }
+    }
+
+    void insertAtBeginning(int value) {
+        Node* node = new Node(value);
+        node->next = head;
+        head = node;
+    }
+
+    void insertAtEnd(int value) {
+        Node* node = new Node(value);
+
+        if (head == nullptr) {
+            head = node;
+            return;
+        }
+
+        Node* curr = head;
+        while (curr->next != nullptr) {
+            curr = curr->next;
+        }
+        curr->next = node;
+    }
+
+    void insertAtPosition(int value, int position) {
+        Node* node = new Node(value);
+
+        if (position == 0) {
+            node->next = head;
+            head = node;
+            return;
+        }
+
+        Node* curr = head;
+        for (int i = 0; curr != nullptr && i < position - 1; i++) {
+            curr = curr->next;
+        }
+
+        if (curr == nullptr) {
+            cout << "Position out of range, inserting at the end\n";
+            insertAtEnd(value);
+            return;
+        }
+
+        node->next = curr->next;
+        curr->next = node;
+    }
+
+    bool DeleteFromBegining(int* removedValue = nullptr) {
+        if (head == nullptr)
+            return false;
+
+        Node* temp = head;
+        if (removedValue) {
+            *removedValue = temp->data;
+        }
+
+        head = head->next;
+        delete temp;
+        return true;
+    }
+
+    void display() const {
+        Node* curr = head;
+        while (curr) {
+            cout << curr->data;
+            if (curr->next) {
+                cout << " -> ";
+            }
+            curr = curr->next;
+        }
+        cout << "\n";
+    }
+};
+
+// Main function moved outside the class
+int main() {
+    linkedlist list;
+
+    // Add 3 passengers at the end
+    list.insertAtEnd(101);
+    list.insertAtEnd(102);
+    list.insertAtEnd(103);
+    cout << "Initial Queue after adding passengers:\n";
+    list.display();
+
+    // Emergency passenger at beginning
+    list.insertAtBeginning(999);
+    cout << "After adding an emergency passenger at beginning:\n";
+    list.display();
+
+    // Special booking passenger at position 2
+    list.insertAtPosition(555, 2);
+    cout << "After inserting special booking passenger at position 2:\n";
+    list.display();
+
+    // First passenger boards (delete from beginning)
+    int removed;
+    list.DeleteFromBegining(&removed);
+    cout << "After first passenger boards (deletion):\n";
+    list.display();
+
+    return 0;
+}
 
