@@ -2,7 +2,7 @@
 
 Welcome to the **Data Structures Lab** — a hands-on repository designed to help you master the building blocks of efficient programming. This lab includes clean, well-commented implementations of essential data structures using **C/C++**, with a strong focus on understanding memory through **pointers**.
 
-## 📘 Topics Covered
+## 📘 Topics 
 
 This lab covers the following core data structures and concepts:
 
@@ -121,7 +121,7 @@ A **Linked List** is a linear data structure where elements (nodes) are stored i
 ---
 
 📂 Repository Structure
-📁 linked-list-lab/
+ 🧵 Linked Lists/
 ├── singly_linked_list/
 │   ├── insert.c
 │   ├── delete.c
