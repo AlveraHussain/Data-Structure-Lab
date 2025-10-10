@@ -37,11 +37,11 @@ public:
 
     void AddStudent(string name, int id) {
         if (id < 0) {
-            cout << "❌ ID number is invalid\n";
+            cout << " ID number is invalid\n";
             return;
         }
         if (Exists(id)) {
-            cout << "❌ Student ID already exists in the queue\n";
+            cout << " Student ID already exists in the queue\n";
             return;
         }
         Student* newStudent = new Student(name, id);
@@ -52,16 +52,16 @@ public:
             tail = newStudent;
         }
         count++;
-        cout << "✅ " << name << " added to the queue\n";
+        cout << " " << name << " added to the queue\n";
     }
 
     void ServeStudent() {
         if (!head) {
-            cout << "⚠️ Queue is empty, no student to serve\n";
+            cout << " Queue is empty, no student to serve\n";
             return;
         }
         Student* temp = head;
-        cout << "🎉 Served the T-shirt to: " << temp->student_name << " (ID: " << temp->student_id << ")\n";
+        cout << " Served the T-shirt to: " << temp->student_name << " (ID: " << temp->student_id << ")\n";
         head = head->next;
         if (!head) {
             tail = nullptr;
@@ -72,7 +72,7 @@ public:
 
     void StudentLeaves(int id) {
         if (!head) {
-            cout << "⚠️ Queue is empty\n";
+            cout << " Queue is empty\n";
             return;
         }
 
@@ -89,7 +89,7 @@ public:
                 if (current == tail) {
                     tail = previous;
                 }
-                cout << "🚪 " << current->student_name << " (ID: " << current->student_id << ") has left the queue\n";
+                cout << " " << current->student_name << " (ID: " << current->student_id << ") has left the queue\n";
                 delete current;
                 count--;
                 return;
@@ -98,16 +98,16 @@ public:
             current = current->next;
         }
 
-        cout << "❌ Student ID not found in the queue\n";
+        cout << "Student ID not found in the queue\n";
     }
 
     void DisplayQueue() {
         if (!head) {
-            cout << "📭 The queue is currently empty\n";
+            cout << " The queue is currently empty\n";
             return;
         }
 
-        cout << "\n📋 Current Queue:\n";
+        cout << "\n Current Queue:\n";
         Student* temp = head;
         int position = 1;
         while (temp) {
@@ -117,7 +117,7 @@ public:
     }
 
     void CountStudents() {
-        cout << "👥 Total students in queue: " << count << "\n";
+        cout << "Total students in queue: " << count << "\n";
     }
 
     bool Exists(int id) {
@@ -177,12 +177,12 @@ int main() {
                 queue.CountStudents();
                 break;
             case 6:
-                cout << "👋 Exit... Have a Great Event!\n";
+                cout << " Exit... Have a Great Event!\n";
                 break;
             default:
-                cout << "❌ Invalid choice... Please enter a valid option\n";
+                cout << " Invalid choice... Please enter a valid option\n";
         }
-    } while (choice != 10);
+    } while (choice != 6);
 
     return 0;
 }
