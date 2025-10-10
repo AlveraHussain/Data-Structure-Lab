@@ -1,0 +1,188 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Student {
+    string student_name;
+    int student_id;
+    Student* next;
+
+    Student(string name, int id) {
+        student_name = name;
+        student_id = id;
+        next = nullptr;
+    }
+};
+
+class Code_a_thon {
+private:
+    Student* head;
+    Student* tail;
+    int count;
+
+public:
+    Code_a_thon() {
+        head = nullptr;
+        tail = nullptr;
+        count = 0;
+    }
+
+    ~Code_a_thon() {
+        while (head) {
+            Student* temp = head;
+            head = head->next;
+            delete temp;
+        }
+    }
+
+    void AddStudent(string name, int id) {
+        if (id < 0) {
+            cout << "❌ ID number is invalid\n";
+            return;
+        }
+        if (Exists(id)) {
+            cout << "❌ Student ID already exists in the queue\n";
+            return;
+        }
+        Student* newStudent = new Student(name, id);
+        if (!head) {
+            head = tail = newStudent;
+        } else {
+            tail->next = newStudent;
+            tail = newStudent;
+        }
+        count++;
+        cout << "✅ " << name << " added to the queue\n";
+    }
+
+    void ServeStudent() {
+        if (!head) {
+            cout << "⚠️ Queue is empty, no student to serve\n";
+            return;
+        }
+        Student* temp = head;
+        cout << "🎉 Served the T-shirt to: " << temp->student_name << " (ID: " << temp->student_id << ")\n";
+        head = head->next;
+        if (!head) {
+            tail = nullptr;
+        }
+        delete temp;
+        count--;
+    }
+
+    void StudentLeaves(int id) {
+        if (!head) {
+            cout << "⚠️ Queue is empty\n";
+            return;
+        }
+
+        Student* current = head;
+        Student* previous = nullptr;
+
+        while (current) {
+            if (current->student_id == id) {
+                if (previous) {
+                    previous->next = current->next;
+                } else {
+                    head = current->next;
+                }
+                if (current == tail) {
+                    tail = previous;
+                }
+                cout << "🚪 " << current->student_name << " (ID: " << current->student_id << ") has left the queue\n";
+                delete current;
+                count--;
+                return;
+            }
+            previous = current;
+            current = current->next;
+        }
+
+        cout << "❌ Student ID not found in the queue\n";
+    }
+
+    void DisplayQueue() {
+        if (!head) {
+            cout << "📭 The queue is currently empty\n";
+            return;
+        }
+
+        cout << "\n📋 Current Queue:\n";
+        Student* temp = head;
+        int position = 1;
+        while (temp) {
+            cout << position++ << ". " << temp->student_name << " (ID: " << temp->student_id << ")\n";
+            temp = temp->next;
+        }
+    }
+
+    void CountStudents() {
+        cout << "👥 Total students in queue: " << count << "\n";
+    }
+
+    bool Exists(int id) {
+        Student* temp = head;
+        while (temp) {
+            if (temp->student_id == id)
+                return true;
+            temp = temp->next;
+        }
+        return false;
+    }
+};
+
+int main() {
+    Code_a_thon queue;
+    int choice;
+
+    do {
+        cout << "\n=== CODE-A-THON T-SHIRT QUEUE MENU ===\n";
+        cout << "1. Add Student to queue\n";
+        cout << "2. Serve student from front\n";
+        cout << "3. A student leaves\n";
+        cout << "4. Display Queue\n";
+        cout << "5. Count students in queue\n";
+        cout << "6. Exit\n";
+        cout << "Enter your choice (1-6): ";
+        cin >> choice;
+        cin.ignore();
+
+        switch (choice) {
+            case 1: {
+                string name;
+                int id;
+                cout << "Enter student name: ";
+                getline(cin, name);
+                cout << "Enter student ID (integer): ";
+                cin >> id;
+                cin.ignore();
+                queue.AddStudent(name, id);
+                break;
+            }
+            case 2:
+                queue.ServeStudent();
+                break;
+            case 3: {
+                int id;
+                cout << "Enter student ID to remove: ";
+                cin >> id;
+                cin.ignore();
+                queue.StudentLeaves(id);
+                break;
+            }
+            case 4:
+                queue.DisplayQueue();
+                break;
+            case 5:
+                queue.CountStudents();
+                break;
+            case 6:
+                cout << "👋 Exit... Have a Great Event!\n";
+                break;
+            default:
+                cout << "❌ Invalid choice... Please enter a valid option\n";
+        }
+    } while (choice != 6);
+
+    return 0;
+}
