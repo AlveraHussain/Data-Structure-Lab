@@ -182,7 +182,7 @@ int main() {
             default:
                 cout << "❌ Invalid choice... Please enter a valid option\n";
         }
-    } while (choice != 6);
+    } while (choice != 10);
 
     return 0;
 }
