@@ -1,0 +1,105 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
+using namespace std;
+
+// Node structure for doubly linked list
+struct Node {
+    string ip;
+    Node* prev;
+    Node* next;
+
+    Node(const string& ipAddress) : ip(ipAddress), prev(nullptr), next(nullptr) {}
+};
+
+// Doubly Linked List Class
+class DoublyLinkedList {
+private:
+    Node* head;
+    Node* tail;
+
+public:
+    DoublyLinkedList() : head(nullptr), tail(nullptr) {}
+
+    // Insert node at the end
+    void insert(const string& ipAddress) {
+        Node* newNode = new Node(ipAddress);
+        if (!head) {
+            head = tail = newNode;
+        } else {
+            tail->next = newNode;
+            newNode->prev = tail;
+            tail = newNode;
+        }
+    }
+
+    // Traverse forward
+    void displayForward() const {
+        cout << "IP Addresses (Forward Traversal):\n";
+        Node* current = head;
+        while (current) {
+            cout << current->ip << endl;
+            current = current->next;
+        }
+    }
+
+    // Traverse backward
+    void displayBackward() const {
+        cout << "\nIP Addresses (Reverse Traversal):\n";
+        Node* current = tail;
+        while (current) {
+            cout << current->ip << endl;
+            current = current->prev;
+        }
+    }
+
+    // Free memory
+    ~DoublyLinkedList() {
+        Node* current = head;
+        while (current) {
+            Node* temp = current;
+            current = current->next;
+            delete temp;
+        }
+    }
+};
+
+// Function to read IPs from file and load into list
+void loadIPs(const string& filename, DoublyLinkedList& list) {
+    ifstream file(filename);
+    if (!file) {
+        cerr << "Error opening file: " << filename << endl;
+        return;
+    }
+
+    string line;
+    while (getline(file, line)) {
+        stringstream ss(line);
+        string ip;
+        while (getline(ss, ip, ',')) {
+            // Trim whitespace if needed (optional)
+            if (!ip.empty()) {
+                list.insert(ip);
+            }
+        }
+    }
+
+    file.close();
+}
+
+int main() {
+    DoublyLinkedList ipList;
+
+    // Load IP addresses from file
+    loadIPs("ips.txt", ipList);
+
+    // Display IPs forward
+    ipList.displayForward();
+
+    // Display IPs backward
+    ipList.displayBackward();
+
+    // All memory is freed in destructor
+    return 0;
+}
