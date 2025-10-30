@@ -1,0 +1,149 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+struct PatientNode {
+    int patientID;
+    PatientNode* next;
+    PatientNode* prev;
+
+    PatientNode(int data) {
+        patientID = data;
+        next = nullptr;
+        prev = nullptr;
+    }
+};
+
+class ER_Queue {
+private:
+    PatientNode* head;
+    PatientNode* tail;
+
+public:
+    ER_Queue() {
+        head = nullptr;
+        tail = nullptr;
+    }
+
+    ~ER_Queue() {
+        PatientNode* current = head;
+        while (current) {
+            PatientNode* temp = current;
+            current = current->next;
+            delete temp;
+        }
+        head = nullptr;
+        tail = nullptr;
+    }
+
+    void Display() {
+        PatientNode* temp = head;
+        cout << "\n------------------------------------------------------\n";
+        cout << "     Prev Address        |   Data   |     Next Address |   Node Address\n";
+        cout << "------------------------------------------------------\n";
+        while (temp != nullptr) {
+            cout << setw(20) << temp->prev
+                 << " | " << setw(7) << temp->patientID
+                 << " | " << setw(18) << temp->next
+                 << " | " << setw(20) << temp
+                 << endl;
+            temp = temp->next;
+        }
+        cout << endl << "Tail: " << tail -> PatientID << endl;
+        cout << "------------------------------------------------------\n";
+    }
+
+    void InsertAtBegin(int patientID) {
+        PatientNode* newNode = new PatientNode(patientID);
+        if (head == nullptr) {
+            head = tail = newNode;
+        } else {
+            newNode->next = head;
+            head->prev = newNode;
+            head = newNode;
+        }
+    }
+
+    void InsertAtEnd(int patientID) {
+        PatientNode* newNode = new PatientNode(patientID);
+        if (tail == nullptr) {
+            head = tail = newNode;
+        } else {
+            tail->next = newNode;
+            newNode->prev = tail;
+            tail = newNode;
+        }
+    }
+
+    void InsertAtPosition(int patientID, int position) {
+        if (position <= 1) {
+            InsertAtBegin(patientID);
+            return;
+        }
+
+        PatientNode* current = head;
+        for (int i = 1; i < position - 1 && current != nullptr; i++) {
+            current = current->next;
+        }
+
+        if (current == nullptr) {
+            cout << "Invalid Index..." << endl;
+            return;
+        }
+
+        PatientNode* newNode = new PatientNode(patientID);
+        newNode->next = current->next;
+        newNode->prev = current;
+
+        if (current->next != nullptr) {
+            current->next->prev = newNode;
+        } else {
+            tail = newNode;
+        }
+
+        current->next = newNode;
+    }
+
+    void DeleteFromBegin() {
+        if (!head) return;
+
+        PatientNode* temp = head;
+        if (head == tail) {
+            head = tail = nullptr;
+        } else {
+            head = head->next;
+            head->prev = nullptr;
+        }
+        delete temp;
+    }
+};
+
+int main() {
+    ER_Queue ER;
+
+    ER.InsertAtEnd(101);
+    cout << "After insertAtEnd(101): ";
+    ER.Display();
+
+    ER.InsertAtEnd(102);
+    cout << "After insertAtEnd(102): ";
+    ER.Display();
+
+    ER.InsertAtBegin(200);
+    cout << "After insertAtBegin(200): ";
+    ER.Display();
+
+    ER.InsertAtPosition(150, 2);
+    cout << "After insertAtPosition(150, 2): ";
+    ER.Display();
+
+    ER.DeleteFromBegin();
+    cout << "After deleteFromBegin(): ";
+    ER.Display();
+
+    ER.InsertAtEnd(300);
+    cout << "After insertAtEnd(300): ";
+    ER.Display();
+
+    return 0;
+}
