@@ -1,0 +1,101 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <iomanip>
+using namespace std;
+
+struct Student {
+    int studentID;
+    string fullName;
+    string dept;
+    int semester;
+    double cgpa;
+    int creditHours;
+    int enrollmentYear;
+    Student* next;  // pointer to next node
+};
+
+Student* insert(Student* head, Student* newNode) {
+    if (!head) return newNode;
+    Student* temp = head;
+    while (temp->next) temp = temp->next;
+    temp->next = newNode;
+    return head;
+}
+
+Student* loadData(string students_data) {
+    ifstream inFile(students_data);
+    if (!inFile) {
+        cout << "Error opening file!" << endl;
+        return nullptr;
+    }
+
+    int total;
+    inFile >> total;  // first line has total count
+
+    Student* head = nullptr;
+    for (int i = 0; i < total; i++) {
+        Student* s = new Student;
+        inFile >> s->studentID;
+        inFile.ignore(); // skip whitespace
+
+        // Read full name safely (handles spaces in names)
+        getline(inFile, s->fullName);
+
+        // Now read the rest of the fields
+        inFile >> s->dept >> s->semester >> s->cgpa >> s->creditHours >> s->enrollmentYear;
+
+        s->next = nullptr;
+        head = insert(head, s);
+    }
+    return head;
+}
+
+void sortByCGPA(Student* head) {
+    if (!head) return;
+    bool swapped;
+    do {
+        swapped = false;
+        Student* curr = head;
+        while (curr->next) {
+            if (curr->cgpa < curr->next->cgpa) { // descending order
+                // swap data
+                swap(curr->studentID, curr->next->studentID);
+                swap(curr->fullName, curr->next->fullName);
+                swap(curr->dept, curr->next->dept);
+                swap(curr->semester, curr->next->semester);
+                swap(curr->cgpa, curr->next->cgpa);
+                swap(curr->creditHours, curr->next->creditHours);
+                swap(curr->enrollmentYear, curr->next->enrollmentYear);
+                swapped = true;
+            }
+            curr = curr->next;
+        }
+    } while (swapped);
+}
+
+void display(Student* head) {
+    Student* temp = head;
+    while (temp) {
+        cout << temp->studentID << " "
+             << temp->fullName << " "
+             << temp->dept << " "
+             << temp->semester << " "
+             << fixed << setprecision(2) << temp->cgpa << " "
+             << temp->creditHours << " "
+             << temp->enrollmentYear << endl;
+        temp = temp->next;
+    }
+}
+
+int main() {
+    Student* head = loadData("students_data.txt");
+
+    cout << "Sorting students by CGPA..." << endl;
+    sortByCGPA(head);
+
+    cout << "Displaying sorted records:" << endl;
+    display(head);
+
+    return 0;
+}
