@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arena of Ratings Poster</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 10px;
+            min-height: 100vh;
+        }
+        
+        .poster {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 4px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header .subtitle {
+            font-size: 13px;
+            opacity: 0.95;
+        }
+        
+        .content {
+            padding: 15px;
+            font-size: 11px;
+        }
+        
+        .three-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .section {
+            margin-bottom: 10px;
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        
+        .diagram-box {
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 8px 0;
+        }
+        
+        .tree-node {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border: 2px solid #f5576c;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 11px;
+            margin: 0 auto;
+        }
+        
+        .tree-node-small {
+            width: 35px;
+            height: 35px;
+            font-size: 10px;
+        }
+        
+        .tree-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tree-level {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+        }
+        
+        .tree-connection {
+            stroke: #667eea;
+            stroke-width: 2;
+            fill: none;
+        }
+        
+        .operation-card {
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+            padding: 6px 8px;
+            border-radius: 4px;
+            border: 1px solid #00bcd4;
+            margin: 4px 0;
+        }
+        
+        .op-name {
+            font-weight: bold;
+            color: #006064;
+            font-size: 11px;
+            margin-bottom: 3px;
+        }
+        
+        .op-desc {
+            color: #333;
+            font-size: 9px;
+            line-height: 1.3;
+        }
+        
+        .code-snippet {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 9px;
+            overflow-x: auto;
+            margin: 4px 0;
+            line-height: 1.3;
+        }
+        
+        .example-box {
+            background: #e8f5e9;
+            border-left: 3px solid #4caf50;
+            padding: 6px;
+            margin: 4px 0;
+            border-radius: 3px;
+            font-size: 9px;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 3px solid #ffc107;
+            padding: 6px;
+            border-radius: 3px;
+            font-size: 9px;
+        }
+        
+        .arrow {
+            color: #f5576c;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 1px 3px;
+            border-radius: 2px;
+            font-weight: bold;
+        }
+        
+        .inline-code {
+            background: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 2px;
+            font-family: 'Courier New', monospace;
+            font-size: 9px;
+            border: 1px solid #ddd;
+        }
+        
+        svg {
+            overflow: visible;
+        }
+    </style>
+</head>
+<body>
+    <div class="poster">
+        <div class="header">
+            <h1>🎮 ARENA OF RATINGS 🎮</h1>
+            <div class="subtitle">Real-Time Matchmaking Engine | Visual Study Guide</div>
+        </div>
+        
+        <div class="content">
+            <div class="three-column">
+                <!-- Left Column -->
+                <div>
+                    <!-- BST Structure Diagram -->
+                    <div class="section">
+                        <div class="section-title">🌳 BST Structure Example</div>
+                        <div class="diagram-box">
+                            <svg width="100%" height="180" style="display: block;">
+                                <!-- Root -->
+                                <circle cx="120" cy="25" r="22" fill="url(#grad1)" stroke="#f5576c" stroke-width="2"/>
+                                <text x="120" y="22" text-anchor="middle" font-size="11" font-weight="bold">50</text>
+                                <text x="120" y="32" text-anchor="middle" font-size="8">sz=7</text>
+                                
+                                <!-- Lines from root -->
+                                <line x1="105" y1="42" x2="65" y2="63" stroke="#667eea" stroke-width="2"/>
+                                <line x1="135" y1="42" x2="175" y2="63" stroke="#667eea" stroke-width="2"/>
+                                
+                                <!-- Level 1 -->
+                                <circle cx="60" cy="75" r="18" fill="url(#grad1)" stroke="#f5576c" stroke-width="2"/>
+                                <text x="60" y="73" text-anchor="middle" font-size="10" font-weight="bold">30</text>
+                                <text x="60" y="82" text-anchor="middle" font-size="7">sz=3</text>
+                                
+                                <circle cx="180" cy="75" r="18" fill="url(#grad1)" stroke="#f5576c" stroke-width="2"/>
+                                <text x="180" y="73" text-anchor="middle" font-size="10" font-weight="bold">70</text>
+                                <text x="180" y="82" text-anchor="middle" font-size="7">sz=3</text>
+                                
+                                <!-- Lines from level 1 -->
+                                <line x1="48" y1="90" x2="30" y2="113" stroke="#667eea" stroke-width="2"/>
+                                <line x1="72" y1="90" x2="90" y2="113" stroke="#667eea" stroke-width="2"/>
+                                <line x1="168" y1="90" x2="150" y2="113" stroke="#667eea" stroke-width="2"/>
+                                <line x1="192" y1="90" x2="210" y2="113" stroke="#667eea" stroke-width="2"/>
+                                
+                                <!-- Level 2 (Leaves) -->
+                                <circle cx="25" cy="125" r="15" fill="url(#grad1)" stroke="#f5576c" stroke-width="2"/>
+                                <text x="25" y="124" text-anchor="middle" font-size="9" font-weight="bold">20</text>
+                                <text x="25" y="132" text-anchor="middle" font-size="6">sz=1</text>
+                                
+                                <circle cx="95" cy="125" r="15" fill="url(#grad1)" stroke="#f5576c" stroke-width="2"/>
+                                <text x="95" y="124" text-anchor="middle" font-size="9" font-weight="bold">40</text>
+                                <text x="95" y="132" text-anchor="middle" font-size="6">sz=1</text>
+                                
+                                <circle cx="145" cy="125" r="15" fill="url(#grad1)" stroke="#f5576c" stroke-width="2"/>
+                                <text x="145" y="124" text-anchor="middle" font-size="9" font-weight="bold">60</text>
+                                <text x="145" y="132" text-anchor="middle" font-size="6">sz=1</text>
+                                
+                                <circle cx="215" cy="125" r="15" fill="url(#grad1)" stroke="#f5576c" stroke-width="2"/>
+                                <text x="215" y="124" text-anchor="middle" font-size="9" font-weight="bold">80</text>
+                                <text x="215" y="132" text-anchor="middle" font-size="6">sz=1</text>
+                                
+                                <!-- Labels -->
+                                <text x="120" y="160" text-anchor="middle" font-size="10" fill="#667eea" font-weight="bold">Height = 2</text>
+                                <text x="120" y="172" text-anchor="middle" font-size="9" fill="#333">Leaves = 4 nodes (20,40,60,80)</text>
+                                
+                                <!-- Gradient definition -->
+                                <defs>
+                                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#ffecd2;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#fcb69f;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div style="margin-top: 5px; font-size: 9px; text-align: center;">
+                                <strong>Invariant:</strong> Left < Node < Right<br>
+                                <strong>sz</strong> = 1 + sz(left) + sz(right)
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- NEXT/PREV Visualization -->
+                    <div class="section">
+                        <div class="section-title">🔍 NEXT/PREV Example</div>
+                        <div class="diagram-box">
+                            <div style="text-align: center; margin-bottom: 8px;">
+                                <strong style="font-size: 11px;">Query: X = 35</strong>
+                            </div>
+                            <svg width="100%" height="90">
+                                <!-- Timeline -->
+                                <line x1="20" y1="30" x2="220" y2="30" stroke="#333" stroke-width="2"/>
+                                
+                                <!-- Points -->
+                                <circle cx="30" cy="30" r="5" fill="#4caf50"/>
+                                <text x="30" y="50" text-anchor="middle" font-size="9">20</text>
+                                
+                                <circle cx="80" cy="30" r="5" fill="#4caf50"/>
+                                <text x="80" y="50" text-anchor="middle" font-size="9">30</text>
+                                
+                                <circle cx="120" cy="30" r="7" fill="#f5576c"/>
+                                <text x="120" y="18" text-anchor="middle" font-size="10" font-weight="bold" fill="#f5576c">X=35</text>
+                                
+                                <circle cx="160" cy="30" r="5" fill="#2196f3"/>
+                                <text x="160" y="50" text-anchor="middle" font-size="9">40</text>
+                                
+                                <circle cx="210" cy="30" r="5" fill="#2196f3"/>
+                                <text x="210" y="50" text-anchor="middle" font-size="9">50</text>
+                                
+                                <!-- Arrows -->
+                                <path d="M 110 60 L 80 45" stroke="#4caf50" stroke-width="2" fill="none" marker-end="url(#arrowgreen)"/>
+                                <text x="90" y="75" font-size="9" fill="#4caf50" font-weight="bold">PREV = 30</text>
+                                
+                                <path d="M 130 60 L 160 45" stroke="#2196f3" stroke-width="2" fill="none" marker-end="url(#arrowblue)"/>
+                                <text x="145" y="75" font-size="9" fill="#2196f3" font-weight="bold">NEXT = 40</text>
+                                
+                                <defs>
+                                    <marker id="arrowgreen" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                                        <path d="M0,0 L0,6 L9,3 z" fill="#4caf50" />
+                                    </marker>
+                                    <marker id="arrowblue" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                                        <path d="M0,0 L0,6 L9,3 z" fill="#2196f3" />
+                                    </marker>
+                                </defs>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- RANK/KTH Visualization -->
+                    <div class="section">
+                        <div class="section-title">📊 RANK & KTH Example</div>
+                        <div class="diagram-box">
+                            <svg width="100%" height="100">
+                                <!-- Sorted array visualization -->
+                                <rect x="10" y="20" width="35" height="25" fill="#e3f2fd" stroke="#2196f3" stroke-width="1"/>
+                                <text x="27" y="37" text-anchor="middle" font-size="10">20</text>
+                                <text x="27" y="55" text-anchor="middle" font-size="8" fill="#666">k=1</text>
+                                
+                                <rect x="50" y="20" width="35" height="25" fill="#e3f2fd" stroke="#2196f3" stroke-width="1"/>
+                                <text x="67" y="37" text-anchor="middle" font-size="10">30</text>
+                                <text x="67" y="55" text-anchor="middle" font-size="8" fill="#666">k=2</text>
+                                
+                                <rect x="90" y="20" width="35" height="25" fill="#fff3cd" stroke="#ffc107" stroke-width="2"/>
+                                <text x="107" y="37" text-anchor="middle" font-size="10" font-weight="bold">40</text>
+                                <text x="107" y="55" text-anchor="middle" font-size="8" fill="#666">k=3</text>
+                                
+                                <rect x="130" y="20" width="35" height="25" fill="#e3f2fd" stroke="#2196f3" stroke-width="1"/>
+                                <text x="147" y="37" text-anchor="middle" font-size="10">50</text>
+                                <text x="147" y="55" text-anchor="middle" font-size="8" fill="#666">k=4</text>
+                                
+                                <rect x="170" y="20" width="35" height="25" fill="#e3f2fd" stroke="#2196f3" stroke-width="1"/>
+                                <text x="187" y="37" text-anchor="middle" font-size="10">60</text>
+                                <text x="187" y="55" text-anchor="middle" font-size="8" fill="#666">k=5</text>
+                                
+                                <text x="120" y="75" text-anchor="middle" font-size="10" font-weight="bold">KTH(3) = 40</text>
+                                <text x="120" y="88" text-anchor="middle" font-size="9">RANK(40) = 2 (count < 40)</text>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- Operations Summary -->
+                    <div class="section">
+                        <div class="section-title">⚔️ Quick Operations</div>
+                        <div class="operation-card">
+                            <div class="op-name">JOIN</div>
+                            <div class="op-desc">Insert → JOINED / DUPLICATE<br>Update sz on path!</div>
+                        </div>
+                        <div class="operation-card">
+                            <div class="op-name">MATCH X</div>
+                            <div class="op-desc">Find PREV & NEXT, compare dist<br>Tie → choose PREV</div>
+                        </div>
+                        <div class="operation-card">
+                            <div class="op-name">RANGE L R</div>
+                            <div class="op-desc">In-order traversal with pruning<br>Auto-sorted output!</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Middle Column -->
+                <div>
+                    <!-- Delete Cases Diagram -->
+                    <div class="section">
+                        <div class="section-title">🗑️ DELETE (3 Cases)</div>
+                        <div class="diagram-box">
+                            <div style="margin-bottom: 8px;">
+                                <strong style="font-size: 10px;">Case 1: No Children (Leaf)</strong>
+                                <svg width="100%" height="50">
+                                    <circle cx="60" cy="25" r="15" fill="#ffcdd2" stroke="#f44336" stroke-width="2"/>
+                                    <text x="60" y="29" text-anchor="middle" font-size="10" font-weight="bold">30</text>
+                                    <text x="120" y="29" font-size="10">→ Delete, return null</text>
+                                </svg>
+                            </div>
+                            
+                            <div style="margin-bottom: 8px;">
+                                <strong style="font-size: 10px;">Case 2: One Child</strong>
+                                <svg width="100%" height="65">
+                                    <circle cx="60" cy="20" r="15" fill="#ffcdd2" stroke="#f44336" stroke-width="2"/>
+                                    <text x="60" y="24" text-anchor="middle" font-size="10" font-weight="bold">30</text>
+                                    <line x1="60" y1="35" x2="60" y2="45" stroke="#667eea" stroke-width="2"/>
+                                    <circle cx="60" cy="55" r="12" fill="#c8e6c9" stroke="#4caf50" stroke-width="2"/>
+                                    <text x="60" y="59" text-anchor="middle" font-size="9">20</text>
+                                    <text x="120" y="38" font-size="9">→ Replace with child</text>
+                                </svg>
+                            </div>
+                            
+                            <div>
+                                <strong style="font-size: 10px;">Case 3: Two Children</strong>
+                                <svg width="100%" height="85">
+                                    <circle cx="60" cy="20" r="15" fill="#ffcdd2" stroke="#f44336" stroke-width="2"/>
+                                    <text x="60" y="24" text-anchor="middle" font-size="10" font-weight="bold">50</text>
+                                    <line x1="50" y1="32" x2="35" y2="42" stroke="#667eea" stroke-width="2"/>
+                                    <line x1="70" y1="32" x2="85" y2="42" stroke="#667eea" stroke-width="2"/>
+                                    
+                                    <circle cx="30" cy="50" r="12" fill="#e3f2fd" stroke="#2196f3" stroke-width="1"/>
+                                    <text x="30" y="54" text-anchor="middle" font-size="9">30</text>
+                                    
+                                    <circle cx="90" cy="50" r="12" fill="#e3f2fd" stroke="#2196f3" stroke-width="1"/>
+                                    <text x="90" y="54" text-anchor="middle" font-size="9">70</text>
+                                    
+                                    <circle cx="105" cy="73" r="10" fill="#fff9c4" stroke="#ffc107" stroke-width="2"/>
+                                    <text x="105" y="77" text-anchor="middle" font-size="8" font-weight="bold">60</text>
+                                    <line x1="95" y1="60" x2="102" y2="66" stroke="#667eea" stroke-width="1"/>
+                                    
+                                    <text x="150" y="35" font-size="8">Find successor</text>
+                                    <text x="150" y="45" font-size="8">(min in right)</text>
+                                    <text x="150" y="55" font-size="8">Copy to node</text>
+                                    <text x="150" y="65" font-size="8">Delete successor</text>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- DUEL Distance Diagram -->
+                    <div class="section">
+                        <div class="section-title">⚔️ DUEL Distance</div>
+                        <div class="diagram-box">
+                            <svg width="100%" height="120">
+                                <!-- Tree -->
+                                <circle cx="120" cy="20" r="15" fill="#fff9c4" stroke="#ffc107" stroke-width="2"/>
+                                <text x="120" y="24" text-anchor="middle" font-size="10" font-weight="bold">50</text>
+                                <text x="135" y="20" font-size="7" fill="#f44336">LCA</text>
+                                
+                                <line x1="110" y1="32" x2="70" y2="48" stroke="#667eea" stroke-width="2"/>
+                                <line x1="130" y1="32" x2="170" y2="48" stroke="#667eea" stroke-width="2"/>
+                                
+                                <circle cx="65" cy="55" r="12" fill="#e3f2fd" stroke="#2196f3" stroke-width="1"/>
+                                <text x="65" y="59" text-anchor="middle" font-size="9">30</text>
+                                
+                                <circle cx="175" cy="55" r="12" fill="#e3f2fd" stroke="#2196f3" stroke-width="1"/>
+                                <text x="175" y="59" text-anchor="middle" font-size="9">70</text>
+                                
+                                <line x1="58" y1="65" x2="40" y2="80" stroke="#667eea" stroke-width="2"/>
+                                <line x1="182" y1="65" x2="200" y2="80" stroke="#667eea" stroke-width="2"/>
+                                
+                                <circle cx="35" cy="88" r="12" fill="#c8e6c9" stroke="#4caf50" stroke-width="2"/>
+                                <text x="35" y="92" text-anchor="middle" font-size="9" font-weight="bold">20</text>
+                                <text x="35" y="106" text-anchor="middle" font-size="7" fill="#4caf50">A</text>
+                                
+                                <circle cx="205" cy="88" r="12" fill="#ffcdd2" stroke="#f44336" stroke-width="2"/>
+                                <text x="205" y="92" text-anchor="middle" font-size="9" font-weight="bold">80</text>
+                                <text x="205" y="106" text-anchor="middle" font-size="7" fill="#f44336">B</text>
+                            </svg>
+                            <div style="text-align: center; font-size: 9px; margin-top: 5px;">
+                                <strong>DUEL(20, 80):</strong><br>
+                                depth(20)=2, depth(80)=2, depth(LCA50)=0<br>
+                                <strong>dist = 2 + 2 - 2×0 = 4 edges</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Critical Code -->
+                    <div class="section">
+                        <div class="section-title">💻 Essential Code</div>
+                        <strong style="font-size: 10px;">NEXT (Successor):</strong>
+                        <div class="code-snippet">
+Node* next(Node* r, int X) {
+  Node* ans = nullptr;
+  while (r) {
+    if (r->rating > X) {
+      ans = r; r = r->left;
+    } else r = r->right;
+  }
+  return ans;
+}</div>
+
+                        <strong style="font-size: 10px;">RANK (Count < X):</strong>
+                        <div class="code-snippet">
+int rank(Node* t, int X) {
+  if (!t) return 0;
+  if (X <= t->rating) 
+    return rank(t->left, X);
+  return size(t->left) + 1 
+    + rank(t->right, X);
+}</div>
+                    </div>
+                </div>
+                
+                <!-- Right Column -->
+                <div>
+                    <!-- Node Structure -->
+                    <div class="section">
+                        <div class="section-title">🏗️ Node Structure</div>
+                        <div class="code-snippet">
+struct Node {
+  int rating;      // key
+  string name;
+  long long hp;
+  Node *left, *right;
+  int sz;          // subtree size
+  
+  Node(int r, string n, long long h)
+    : rating(r), name(n), hp(h),
+      left(nullptr), right(nullptr),
+      sz(1) {}
+};
+                        </div>
+                        <div class="warning-box" style="margin-top: 5px;">
+                            <strong>MUST maintain:</strong> sz = 1 + sz(left) + sz(right)
+                        </div>
+                    </div>
+                    
+                    <!-- Range Query Visualization -->
+                    <div class="section">
+                        <div class="section-title">📍 RANGE Query [30, 60]</div>
+                        <div class="diagram-box">
+                            <svg width="100%" height="140">
+                                <!-- Tree with range highlighting -->
+                                <circle cx="120" cy="20" r="15" fill="#fff9c4" stroke="#ffc107" stroke-width="2"/>
+                                <text x="120" y="24" text-anchor="middle" font-size="10" font-weight="bold">50</text>
+                                <text x="145" y="20" font-size="7" fill="#4caf50">✓ Print</text>
+                                
+                                <line x1="110" y1="32" x2="70" y2="48" stroke="#667eea" stroke-width="2"/>
+                                <line x1="130" y1="32" x2="170" y2="48" stroke="#667eea" stroke-width="2"/>
+                                
+                                <circle cx="65" cy="55" r="12" fill="#c8e6c9" stroke="#4caf50" stroke-width="2"/>
+                                <text x="65" y="59" text-anchor="middle" font-size="9" font-weight="bold">30</text>
+                                <text x="85" y="55" font-size="7" fill="#4caf50">✓</text>
+                                
+                                <circle cx="175" cy="55" r="12" fill="#e3f2fd" stroke="#2196f3" stroke-width="1"/>
+                                <text x="175" y="59" text-anchor="middle" font-size="9">70</text>
+                                <text x="195" y="55" font-size="7" fill="#999">Skip</text>
+                                
+                                <line x1="58" y1="65" x2="40" y2="80" stroke="#667eea" stroke-width="1" stroke-dasharray="2,2"/>
+                                <line x1="72" y1="65" x2="90" y2="80" stroke="#667eea" stroke-width="2"/>
+                                <line x1="168" y1="65" x2="150" y2="80" stroke="#667eea" stroke-width="2"/>
+                                
+                                <circle cx="35" cy="88" r="10" fill="#ffebee" stroke="#999" stroke-width="1" opacity="0.5"/>
+                                <text x="35" y="92" text-anchor="middle" font-size="8">20</text>
+                                <text x="35" y="104" font-size="7" fill="#999">Skip</text>
+                                
+                                <circle cx="95" cy="88" r="10" fill="#c8e6c9" stroke="#4caf50" stroke-width="2"/>
+                                <text x="95" y="92" text-anchor="middle" font-size="8" font-
