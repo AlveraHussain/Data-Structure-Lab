@@ -1,0 +1,281 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+/* ================= NODE ================= */
+struct Node {
+    int rating;
+    string name;
+    long long hp;
+    Node *left, *right;
+    int sz;
+
+    Node(int r, string n, long long h) {
+        rating = r;
+        name = n;
+        hp = h;
+        left = right = NULL;
+        sz = 1;
+    }
+};
+
+/* ============ BASIC HELPERS ============ */
+int size(Node* t) {
+    return (t == NULL) ? 0 : t->sz;
+}
+
+void update(Node* t) {
+    if (t)
+        t->sz = 1 + size(t->left) + size(t->right);
+}
+
+/* ============ INSERT (JOIN) ============ */
+Node* insert(Node* root, int r, string n, long long h, bool &ok) {
+    if (root == NULL) {
+        ok = true;
+        return new Node(r, n, h);
+    }
+
+    if (r < root->rating)
+        root->left = insert(root->left, r, n, h, ok);
+    else if (r > root->rating)
+        root->right = insert(root->right, r, n, h, ok);
+    else
+        ok = false;
+
+    update(root);
+    return root;
+}
+
+/* ============ SEARCH (STATUS) ============ */
+Node* search(Node* root, int r) {
+    if (!root) return NULL;
+    if (r == root->rating) return root;
+    if (r < root->rating) return search(root->left, r);
+    return search(root->right, r);
+}
+
+/* ============ SUCCESSOR (NEXT) ============ */
+Node* successor(Node* root, int x) {
+    Node* ans = NULL;
+    while (root) {
+        if (root->rating > x) {
+            ans = root;
+            root = root->left;
+        } else
+            root = root->right;
+    }
+    return ans;
+}
+
+/* ============ PREDECESSOR (PREV) ============ */
+Node* predecessor(Node* root, int x) {
+    Node* ans = NULL;
+    while (root) {
+        if (root->rating < x) {
+            ans = root;
+            root = root->right;
+        } else
+            root = root->left;
+    }
+    return ans;
+}
+
+/* ============ RANGE ============ */
+void rangePrint(Node* root, int L, int R) {
+    if (!root) return;
+
+    if (root->rating > L)
+        rangePrint(root->left, L, R);
+
+    if (root->rating >= L && root->rating <= R)
+        cout << root->rating << " " << root->name << " " << root->hp << endl;
+
+    if (root->rating < R)
+        rangePrint(root->right, L, R);
+}
+
+/* ============ FIND MIN ============ */
+Node* findMin(Node* root) {
+    while (root && root->left)
+        root = root->left;
+    return root;
+}
+
+/* ============ DELETE (LEAVE) ============ */
+Node* removeNode(Node* root, int r, bool &ok) {
+    if (!root) {
+        ok = false;
+        return NULL;
+    }
+
+    if (r < root->rating)
+        root->left = removeNode(root->left, r, ok);
+    else if (r > root->rating)
+        root->right = removeNode(root->right, r, ok);
+    else {
+        ok = true;
+
+        if (!root->left) return root->right;
+        if (!root->right) return root->left;
+
+        Node* s = findMin(root->right);
+        root->rating = s->rating;
+        root->name = s->name;
+        root->hp = s->hp;
+        root->right = removeNode(root->right, s->rating, ok);
+    }
+
+    update(root);
+    return root;
+}
+
+/* ============ RANK ============ */
+int rankLess(Node* root, int x) {
+    if (!root) return 0;
+
+    if (x <= root->rating)
+        return rankLess(root->left, x);
+
+    return size(root->left) + 1 + rankLess(root->right, x);
+}
+
+/* ============ KTH ============ */
+Node* kth(Node* root, int k) {
+    if (!root) return NULL;
+
+    int L = size(root->left);
+
+    if (k == L + 1) return root;
+    if (k <= L) return kth(root->left, k);
+    return kth(root->right, k - L - 1);
+}
+
+/* ============ HEIGHT ============ */
+int height(Node* root) {
+    if (!root) return -1;
+    int lh = height(root->left);
+    int rh = height(root->right);
+    return 1 + (lh > rh ? lh : rh);
+}
+
+/* ============ LEAVES ============ */
+int leaves(Node* root) {
+    if (!root) return 0;
+    if (!root->left && !root->right) return 1;
+    return leaves(root->left) + leaves(root->right);
+}
+
+/* ================= MAIN (COMMAND BASED) ================= */
+int main() {
+    Node* root = NULL;
+    string cmd;
+
+    while (cin >> cmd) {
+
+        if (cmd == "JOIN") {
+            int r; string n; long long h;
+            cin >> r >> n >> h;
+            bool ok;
+            root = insert(root, r, n, h, ok);
+            if (ok) cout << "JOINED\n";
+            else cout << "DUPLICATE\n";
+        }
+
+        else if (cmd == "STATUS") {
+            int r; cin >> r;
+            Node* p = search(root, r);
+            if (!p) cout << "NOT FOUND\n";
+            else cout << p->rating << " " << p->name << " " << p->hp << endl;
+        }
+
+        else if (cmd == "DAMAGE") {
+            int r; long long x;
+            cin >> r >> x;
+            Node* p = search(root, r);
+            if (!p) cout << "NOT FOUND\n";
+            else {
+                if (p->hp < x) p->hp = 0;
+                else p->hp -= x;
+                cout << "DAMAGED " << p->hp << endl;
+            }
+        }
+
+        else if (cmd == "HEAL") {
+            int r; long long x;
+            cin >> r >> x;
+            Node* p = search(root, r);
+            if (!p) cout << "NOT FOUND\n";
+            else {
+                p->hp += x;
+                cout << "HEALED " << p->hp << endl;
+            }
+        }
+
+        else if (cmd == "NEXT") {
+            int x; cin >> x;
+            Node* p = successor(root, x);
+            if (!p) cout << "NONE\n";
+            else cout << p->rating << endl;
+        }
+
+        else if (cmd == "PREV") {
+            int x; cin >> x;
+            Node* p = predecessor(root, x);
+            if (!p) cout << "NONE\n";
+            else cout << p->rating << endl;
+        }
+
+        else if (cmd == "MATCH") {
+            int x; cin >> x;
+            Node* p = predecessor(root, x);
+            Node* s = successor(root, x);
+
+            if (!p && !s) cout << "EMPTY\n";
+            else if (!p) cout << s->rating << endl;
+            else if (!s) cout << p->rating << endl;
+            else {
+                int d1 = x - p->rating;
+                int d2 = s->rating - x;
+                if (d1 <= d2) cout << p->rating << endl;
+                else cout << s->rating << endl;
+            }
+        }
+
+        else if (cmd == "RANGE") {
+            int L, R;
+            cin >> L >> R;
+            rangePrint(root, L, R);
+        }
+
+        else if (cmd == "LEAVE") {
+            int r; cin >> r;
+            bool ok;
+            root = removeNode(root, r, ok);
+            if (ok) cout << "LEFT\n";
+            else cout << "NOT FOUND\n";
+        }
+
+        else if (cmd == "RANK") {
+            int x; cin >> x;
+            cout << rankLess(root, x) << endl;
+        }
+
+        else if (cmd == "KTH") {
+            int k; cin >> k;
+            Node* p = kth(root, k);
+            if (!p) cout << "NONE\n";
+            else cout << p->rating << endl;
+        }
+
+        else if (cmd == "HEIGHT") {
+            cout << height(root) << endl;
+        }
+
+        else if (cmd == "LEAVES") {
+            cout << leaves(root) << endl;
+        }
+    }
+
+    return 0;
+}
